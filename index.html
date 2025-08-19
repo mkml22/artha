@@ -1,0 +1,830 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artha Sejahtera Komputindo - Laptop, Printer & Aksesoris</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .slide-in {
+            animation: slideIn 0.6s ease-out;
+        }
+        
+        .bounce-hover:hover {
+            animation: bounce 0.6s;
+        }
+        
+        .product-card {
+            transition: all 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .filter-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active {
+            background: linear-gradient(135deg, #dc2626 0%, #f59e0b 100%);
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3 slide-in">
+                    <img src="foto/ARTHA22.png" alt="Logo Artha Sejahtera Komputindo" class="w-12 h-12 rounded-lg object-cover border-2 border-blue-200">
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-800">Artha Sejahtera</h1>
+                        <p class="text-sm text-gray-600">Komputindo</p>
+                    </div>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-gray-700 hover:text-red-600 transition-colors">Beranda</a>
+                    <a href="#products" class="text-gray-700 hover:text-red-600 transition-colors">Produk</a>
+                    <a href="#brands" class="text-gray-700 hover:text-red-600 transition-colors">Merek</a>
+                    <a href="#contact" class="text-gray-700 hover:text-red-600 transition-colors">Kontak</a>
+                </nav>
+                
+                <!-- Cart -->
+                <div class="flex items-center space-x-4">
+                    <button onclick="toggleCart()" class="relative bounce-hover">
+                        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9"/>
+                        </svg>
+                        <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="bg-gradient-to-r from-red-600 to-yellow-500 text-white py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-5xl font-bold mb-6 fade-in-up">Solusi Teknologi Terpercaya</h2>
+            <p class="text-xl mb-8 fade-in-up">Laptop, Printer, dan Aksesoris Berkualitas dengan Harga Terbaik</p>
+            <button onclick="scrollToProducts()" class="bg-white text-red-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors bounce-hover mb-8">
+                Lihat Produk
+            </button>
+            
+            <!-- Search Box -->
+            <div class="max-w-md mx-auto">
+                <div class="relative">
+                    <input 
+                        type="text" 
+                        id="searchInput"
+                        placeholder="Cari produk, merek..." 
+                        class="w-full px-6 py-4 pl-12 pr-6 text-gray-800 bg-white border-0 rounded-full focus:outline-none focus:ring-4 focus:ring-white focus:ring-opacity-30 shadow-lg text-lg"
+                        onkeyup="searchProducts()"
+                    >
+                    <svg class="absolute left-4 top-4 w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="py-8 bg-white">
+        <div class="container mx-auto px-4">
+
+            
+            <div class="flex flex-wrap justify-center gap-4">
+                <button onclick="filterProducts('all')" class="filter-btn active px-6 py-2 rounded-full border border-gray-300 hover:border-red-500">
+                    Semua Produk
+                </button>
+                <button onclick="filterProducts('laptop')" class="filter-btn px-6 py-2 rounded-full border border-gray-300 hover:border-red-500">
+                    Laptop
+                </button>
+                <button onclick="filterProducts('printer')" class="filter-btn px-6 py-2 rounded-full border border-gray-300 hover:border-red-500">
+                    Printer
+                </button>
+                <button onclick="filterProducts('aksesoris')" class="filter-btn px-6 py-2 rounded-full border border-gray-300 hover:border-red-500">
+                    Aksesoris
+                </button>
+            </div>
+            
+            <!-- Sort Options -->
+            <div class="flex justify-center mt-4">
+                <select onchange="sortProducts(this.value)" class="px-4 py-2 border border-gray-300 rounded-lg">
+                    <option value="default">Urutkan Berdasarkan</option>
+                    <option value="price-low">Harga Terendah</option>
+                    <option value="price-high">Harga Tertinggi</option>
+                    <option value="name">Nama A-Z</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h3 class="text-3xl font-bold text-center mb-12 text-gray-800">Produk Unggulan</h3>
+            
+            <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Products will be inserted here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Brands Section -->
+    <section id="brands" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h3 class="text-3xl font-bold text-center mb-12 text-gray-800">Merek Terpercaya</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8">
+                <div class="brand-card bg-gray-100 p-6 rounded-lg text-center hover:shadow-lg transition-shadow">
+                    <img src="images/brands/asus.png" alt="ASUS" class="w-16 h-16 mx-auto mb-2 object-contain">
+                    <div class="text-lg font-bold text-gray-700">ASUS</div>
+                </div>
+                <div class="brand-card bg-gray-100 p-6 rounded-lg text-center hover:shadow-lg transition-shadow">
+                    <img src="images/brands/hp.png" alt="HP" class="w-16 h-16 mx-auto mb-2 object-contain">
+                    <div class="text-lg font-bold text-gray-700">HP</div>
+                </div>
+                <div class="brand-card bg-gray-100 p-6 rounded-lg text-center hover:shadow-lg transition-shadow">
+                    <img src="images/brands/msi.png" alt="MSI" class="w-16 h-16 mx-auto mb-2 object-contain">
+                    <div class="text-lg font-bold text-gray-700">MSI</div>
+                </div>
+                <div class="brand-card bg-gray-100 p-6 rounded-lg text-center hover:shadow-lg transition-shadow">
+                    <img src="images/brands/lenovo.png" alt="LENOVO" class="w-16 h-16 mx-auto mb-2 object-contain">
+                    <div class="text-lg font-bold text-gray-700">LENOVO</div>
+                </div>
+                <div class="brand-card bg-gray-100 p-6 rounded-lg text-center hover:shadow-lg transition-shadow">
+                    <img src="images/brands/acer.png" alt="ACER" class="w-16 h-16 mx-auto mb-2 object-contain">
+                    <div class="text-lg font-bold text-gray-700">ACER</div>
+                </div>
+                <div class="brand-card bg-gray-100 p-6 rounded-lg text-center hover:shadow-lg transition-shadow">
+                    <img src="images/brands/axioo.png" alt="AXIOO" class="w-16 h-16 mx-auto mb-2 object-contain">
+                    <div class="text-lg font-bold text-gray-700">AXIOO</div>
+                </div>
+                <div class="brand-card bg-gray-100 p-6 rounded-lg text-center hover:shadow-lg transition-shadow">
+                    <img src="images/brands/advan.png" alt="ADVAN" class="w-16 h-16 mx-auto mb-2 object-contain">
+                    <div class="text-lg font-bold text-gray-700">ADVAN</div>
+                </div>
+                <div class="brand-card bg-gray-100 p-6 rounded-lg text-center hover:shadow-lg transition-shadow">
+                    <img src="images/brands/canon.png" alt="CANON" class="w-16 h-16 mx-auto mb-2 object-contain">
+                    <div class="text-lg font-bold text-gray-700">CANON</div>
+                </div>
+                <div class="brand-card bg-gray-100 p-6 rounded-lg text-center hover:shadow-lg transition-shadow">
+                    <img src="images/brands/epson.png" alt="EPSON" class="w-16 h-16 mx-auto mb-2 object-contain">
+                    <div class="text-lg font-bold text-gray-700">EPSON</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h4 class="text-xl font-bold mb-4">Artha Sejahtera Komputindo</h4>
+                    <p class="text-gray-300">Toko komputer terpercaya dengan pengalaman bertahun-tahun melayani kebutuhan teknologi Anda.</p>
+                </div>
+                <div>
+                    <h4 class="text-xl font-bold mb-4">Kontak</h4>
+                    <p class="text-gray-300">📍 Simpang Empat Banua Lima, Palampitan Hilir, Kec. Amuntai Tengah,
+Kabupaten Hulu Sungai Utara, Kalimantan Selatan 71414</p>
+                    <p class="text-gray-300">📞 0812-5414-0777</p>
+                    <p class="text-gray-300">✉️ info@arthasejahteraa.com</p>
+                </div>
+                <div>
+                    <h4 class="text-xl font-bold mb-4">Jam Operasional</h4>
+                    <p class="text-gray-300">Senin - Minggu: 09:00 - 21:00</p>
+                    
+                    <!-- Social Media -->
+                    <div class="mt-6">
+                        <h5 class="text-lg font-semibold mb-3 text-white">Ikuti Kami</h5>
+                        <div class="flex space-x-4">
+                            <a href="https://instagram.com/artha_sejahtera" target="_blank" rel="noopener noreferrer" class="bg-gradient-to-r from-pink-500 to-purple-600 p-3 rounded-full hover:from-pink-600 hover:to-purple-700 transition-all transform hover:scale-110" title="Follow us on Instagram">
+                                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                                </svg>
+                            </a>
+                            <a href="https://tiktok.com/@artha_sejahtera" target="_blank" rel="noopener noreferrer" class="bg-black p-3 rounded-full hover:bg-gray-800 transition-all transform hover:scale-110" title="Follow us on TikTok">
+                                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                                </svg>
+                            </a>
+                            <a href="https://facebook.com/arthasejahterakomputindo" target="_blank" rel="noopener noreferrer" class="bg-blue-600 p-3 rounded-full hover:bg-blue-700 transition-all transform hover:scale-110" title="Follow us on Facebook">
+                                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-gray-300">&copy; 2025 Artha Sejahtera Komputindo. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-md w-full max-h-96 overflow-hidden">
+                <div class="p-6 border-b">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-bold text-gray-800">Keranjang Belanja</h3>
+                        <button onclick="toggleCart()" class="text-gray-500 hover:text-gray-700">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div id="cart-items" class="p-6 max-h-64 overflow-y-auto">
+                    <!-- Cart items will be inserted here -->
+                </div>
+                <div class="p-6 border-t bg-gray-50">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-lg font-bold">Total:</span>
+                        <span id="cart-total" class="text-lg font-bold text-red-600">Rp 0</span>
+                    </div>
+                    <button id="order-btn" onclick="sendToWhatsApp()" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 transition-colors font-semibold disabled:bg-gray-400 disabled:cursor-not-allowed" disabled>
+                        📱 Pesan Sekarang via WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Product data
+        const products = [
+            {
+                id: 1,
+                name: "ASUS VivoBook 14",
+                category: "laptop",
+                brand: "ASUS",
+                price: 8500000,
+                image: "images/products/asus-vivobook.jpg",
+                description: "Laptop ringan dengan performa tinggi untuk produktivitas sehari-hari",
+                specs: {
+                    processor: "Intel Core i5-1135G7",
+                    ram: "8GB DDR4",
+                    storage: "512GB SSD",
+                    screen: "14 inch FHD"
+                }
+            },
+            {
+                id: 2,
+                name: "HP Pavilion Gaming",
+                category: "laptop",
+                brand: "HP",
+                price: 12000000,
+                image: "images/products/hp-pavilion.jpg",
+                description: "Laptop gaming dengan grafis NVIDIA GTX untuk pengalaman gaming terbaik",
+                specs: {
+                    processor: "AMD Ryzen 5 5600H",
+                    ram: "16GB DDR4",
+                    storage: "1TB SSD",
+                    screen: "15.6 inch FHD 144Hz"
+                }
+            },
+            {
+                id: 3,
+                name: "MSI Modern 14",
+                category: "laptop",
+                brand: "MSI",
+                price: 9500000,
+                image: "images/products/msi-modern.jpg",
+                description: "Laptop bisnis dengan layar 14 inci dan performa stabil",
+                specs: {
+                    processor: "Intel Core i7-1165G7",
+                    ram: "16GB DDR4",
+                    storage: "512GB NVMe SSD",
+                    screen: "14 inch FHD IPS"
+                }
+            },
+            {
+                id: 4,
+                name: "Canon PIXMA G2010",
+                category: "printer",
+                brand: "CANON",
+                price: 2100000,
+                image: "images/products/canon-pixma.jpg",
+                description: "Printer inkjet multifungsi dengan sistem tinta refill"
+            },
+            {
+                id: 5,
+                name: "HP LaserJet Pro",
+                category: "printer",
+                brand: "HP",
+                price: 3500000,
+                image: "images/products/hp-laserjet.jpg",
+                description: "Printer laser monokrom untuk kebutuhan kantor"
+            },
+            {
+                id: 6,
+                name: "Epson EcoTank L3210",
+                category: "printer",
+                brand: "EPSON",
+                price: 2800000,
+                image: "images/products/epson-ecotank.jpg",
+                description: "Printer multifungsi dengan tangki tinta besar"
+            },
+            {
+                id: 7,
+                name: "Mouse Wireless Logitech",
+                category: "aksesoris",
+                brand: "LOGITECH",
+                price: 350000,
+                image: "images/products/logitech-mouse.jpg",
+                description: "Mouse wireless ergonomis dengan baterai tahan lama"
+            },
+            {
+                id: 8,
+                name: "Keyboard Mechanical RGB",
+                category: "aksesoris",
+                brand: "RAZER",
+                price: 1200000,
+                image: "images/products/razer-keyboard.jpg",
+                description: "Keyboard mechanical dengan lampu RGB dan switch blue"
+            },
+            {
+                id: 9,
+                name: "Webcam HD 1080p",
+                category: "aksesoris",
+                brand: "LOGITECH",
+                price: 800000,
+                image: "images/products/logitech-webcam.jpg",
+                description: "Webcam HD untuk video call dan streaming berkualitas tinggi"
+            },
+            {
+                id: 10,
+                name: "Lenovo ThinkPad E14",
+                category: "laptop",
+                brand: "LENOVO",
+                price: 11000000,
+                image: "images/products/lenovo-thinkpad.jpg",
+                description: "Laptop bisnis premium dengan keamanan tingkat enterprise",
+                specs: {
+                    processor: "Intel Core i5-1235U",
+                    ram: "8GB DDR4",
+                    storage: "256GB SSD + 1TB HDD",
+                    screen: "14 inch FHD Anti-Glare"
+                }
+            },
+            {
+                id: 11,
+                name: "Headset Gaming RGB",
+                category: "aksesoris",
+                brand: "STEELSERIES",
+                price: 950000,
+                image: "images/products/steelseries-headset.jpg",
+                description: "Headset gaming dengan surround sound 7.1 dan mikrofon noise-canceling"
+            },
+            {
+                id: 12,
+                name: "SSD External 1TB",
+                category: "aksesoris",
+                brand: "SAMSUNG",
+                price: 1800000,
+                image: "images/products/samsung-ssd.jpg",
+                description: "SSD eksternal portable dengan kecepatan transfer tinggi"
+            }
+        ];
+
+        let currentProducts = [...products];
+        let cart = [];
+        let currentSearchTerm = '';
+        let currentFilter = 'all';
+
+        // Format currency
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(amount);
+        }
+
+        // Render products
+        function renderProducts(productsToRender = currentProducts) {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+
+            productsToRender.forEach((product, index) => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card bg-white rounded-xl shadow-lg overflow-hidden fade-in-up';
+                productCard.style.animationDelay = `${index * 0.1}s`;
+                
+                productCard.innerHTML = `
+                    <div class="relative">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover">
+                        <div class="absolute top-2 right-2 bg-white px-2 py-1 rounded-full text-xs font-semibold text-gray-700">
+                            ${product.brand}
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-lg font-bold text-gray-800 mb-2">${product.name}</h4>
+                        <p class="text-sm text-gray-600 mb-3">${product.description}</p>
+                        
+                        ${product.specs ? `
+                        <div class="bg-gray-50 p-3 rounded-lg mb-3">
+                            <h5 class="text-xs font-semibold text-gray-700 mb-2">SPESIFIKASI:</h5>
+                            <div class="grid grid-cols-2 gap-1 text-xs">
+                                <div><span class="font-medium">Processor:</span></div>
+                                <div class="text-gray-600">${product.specs.processor}</div>
+                                <div><span class="font-medium">RAM:</span></div>
+                                <div class="text-gray-600">${product.specs.ram}</div>
+                                <div><span class="font-medium">Storage:</span></div>
+                                <div class="text-gray-600">${product.specs.storage}</div>
+                                <div><span class="font-medium">Layar:</span></div>
+                                <div class="text-gray-600">${product.specs.screen}</div>
+                            </div>
+                        </div>
+                        ` : ''}
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm bg-red-100 text-red-800 px-2 py-1 rounded capitalize">${product.category}</span>
+                            <span class="text-lg font-bold text-red-600">${formatCurrency(product.price)}</span>
+                        </div>
+                        <button onclick="addToCart(${product.id})" class="w-full bg-gradient-to-r from-red-600 to-yellow-500 text-white py-2 px-4 rounded-lg hover:from-red-700 hover:to-yellow-600 transition-all transform hover:scale-105">
+                            Tambah ke Keranjang
+                        </button>
+                    </div>
+                `;
+                
+                grid.appendChild(productCard);
+            });
+        }
+
+        // Search products
+        function searchProducts() {
+            const searchTerm = document.getElementById('searchInput')?.value.toLowerCase() || '';
+            
+            currentSearchTerm = searchTerm;
+            applyFilters();
+        }
+
+        // Scroll to products section
+        function scrollToProducts() {
+            document.getElementById('products').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Filter products
+        function filterProducts(category) {
+            // Update active filter button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            currentFilter = category;
+            applyFilters();
+        }
+
+        // Apply both search and filter
+        function applyFilters() {
+            let filteredProducts = [...products];
+            
+            // Apply category filter
+            if (currentFilter !== 'all') {
+                filteredProducts = filteredProducts.filter(product => product.category === currentFilter);
+            }
+            
+            // Apply search filter
+            if (currentSearchTerm) {
+                filteredProducts = filteredProducts.filter(product => 
+                    product.name.toLowerCase().includes(currentSearchTerm) ||
+                    product.brand.toLowerCase().includes(currentSearchTerm) ||
+                    product.description.toLowerCase().includes(currentSearchTerm) ||
+                    product.category.toLowerCase().includes(currentSearchTerm)
+                );
+            }
+            
+            currentProducts = filteredProducts;
+            renderProducts(currentProducts);
+            
+            // Show search results info
+            showSearchResults();
+        }
+
+        // Show search results info
+        function showSearchResults() {
+            const resultsInfo = document.getElementById('search-results-info');
+            if (resultsInfo) {
+                resultsInfo.remove();
+            }
+            
+            if (currentSearchTerm || currentFilter !== 'all') {
+                const info = document.createElement('div');
+                info.id = 'search-results-info';
+                info.className = 'text-center mb-6 p-4 bg-blue-50 rounded-lg';
+                
+                let message = '';
+                if (currentSearchTerm && currentFilter !== 'all') {
+                    message = `Menampilkan ${currentProducts.length} hasil untuk "${currentSearchTerm}" dalam kategori ${currentFilter}`;
+                } else if (currentSearchTerm) {
+                    message = `Menampilkan ${currentProducts.length} hasil untuk "${currentSearchTerm}"`;
+                } else if (currentFilter !== 'all') {
+                    message = `Menampilkan ${currentProducts.length} produk dalam kategori ${currentFilter}`;
+                }
+                
+                if (currentProducts.length === 0) {
+                    message = currentSearchTerm ? 
+                        `Tidak ada produk yang ditemukan untuk "${currentSearchTerm}"` :
+                        `Tidak ada produk dalam kategori ${currentFilter}`;
+                    info.className = 'text-center mb-6 p-4 bg-red-50 rounded-lg';
+                }
+                
+                info.innerHTML = `
+                    <p class="text-gray-700 font-medium">${message}</p>
+                    ${(currentSearchTerm || currentFilter !== 'all') ? 
+                        '<button onclick="clearSearch()" class="mt-2 text-red-600 hover:text-red-800 underline">Hapus Filter</button>' : 
+                        ''
+                    }
+                `;
+                
+                const grid = document.getElementById('products-grid');
+                grid.parentNode.insertBefore(info, grid);
+            }
+        }
+
+        // Clear search and filters
+        function clearSearch() {
+            currentSearchTerm = '';
+            currentFilter = 'all';
+            
+            // Clear search input
+            if (document.getElementById('searchInput')) {
+                document.getElementById('searchInput').value = '';
+            }
+            
+            // Reset filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector('.filter-btn').classList.add('active');
+            
+            // Reset products
+            currentProducts = [...products];
+            renderProducts(currentProducts);
+            
+            // Remove search results info
+            const resultsInfo = document.getElementById('search-results-info');
+            if (resultsInfo) {
+                resultsInfo.remove();
+            }
+        }
+
+        // Sort products
+        function sortProducts(sortBy) {
+            switch(sortBy) {
+                case 'price-low':
+                    currentProducts.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    currentProducts.sort((a, b) => b.price - a.price);
+                    break;
+                case 'name':
+                    currentProducts.sort((a, b) => a.name.localeCompare(b.name));
+                    break;
+                default:
+                    currentProducts = [...products];
+            }
+            renderProducts(currentProducts);
+        }
+
+        // Add to cart
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            
+            // Check if product already exists in cart
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({...product, quantity: 1});
+            }
+            
+            updateCartUI();
+            
+            // Show notification with cart option
+            showCartNotification(product.name);
+        }
+
+        // Show cart notification
+        function showCartNotification(productName) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-20 right-4 bg-green-500 text-white p-4 rounded-lg shadow-lg z-50 max-w-sm';
+            notification.innerHTML = `
+                <div class="flex items-center space-x-3">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <div>
+                        <p class="font-semibold">${productName}</p>
+                        <p class="text-sm">berhasil ditambahkan ke keranjang!</p>
+                    </div>
+                </div>
+                <button onclick="toggleCart(); this.parentElement.remove();" class="mt-3 w-full bg-white text-red-600 py-2 px-4 rounded font-semibold hover:bg-gray-100 transition-colors">
+                    Lihat Keranjang
+                </button>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        // Toggle cart modal
+        function toggleCart() {
+            const modal = document.getElementById('cart-modal');
+            modal.classList.toggle('hidden');
+            if (!modal.classList.contains('hidden')) {
+                renderCartItems();
+            }
+        }
+
+        // Update cart UI
+        function updateCartUI() {
+            const cartCount = document.getElementById('cart-count');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+            
+            // Update order button state
+            const orderBtn = document.getElementById('order-btn');
+            orderBtn.disabled = cart.length === 0;
+        }
+
+        // Render cart items
+        function renderCartItems() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="text-center py-8">
+                        <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9"/>
+                        </svg>
+                        <p class="text-gray-500">Keranjang masih kosong</p>
+                    </div>
+                `;
+                cartTotal.textContent = 'Rp 0';
+                return;
+            }
+            
+            let total = 0;
+            cartItemsContainer.innerHTML = cart.map(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                return `
+                    <div class="flex items-center space-x-3 mb-4 p-3 bg-gray-50 rounded-lg">
+                        <img src="${item.image}" alt="${item.name}" class="w-12 h-12 object-cover rounded">
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-sm">${item.name}</h4>
+                            <p class="text-xs text-gray-600">${formatCurrency(item.price)}</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="updateQuantity(${item.id}, -1)" class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300">
+                                <span class="text-sm">-</span>
+                            </button>
+                            <span class="text-sm font-semibold w-8 text-center">${item.quantity}</span>
+                            <button onclick="updateQuantity(${item.id}, 1)" class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300">
+                                <span class="text-sm">+</span>
+                            </button>
+                        </div>
+                        <button onclick="removeFromCart(${item.id})" class="text-red-500 hover:text-red-700">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+            
+            cartTotal.textContent = formatCurrency(total);
+        }
+
+        // Update quantity
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    updateCartUI();
+                    renderCartItems();
+                }
+            }
+        }
+
+        // Remove from cart
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartUI();
+            renderCartItems();
+        }
+
+        // Send to WhatsApp
+        function sendToWhatsApp() {
+            if (cart.length === 0) return;
+            
+            let message = "Halo! Saya ingin memesan produk berikut dari Artha Sejahtera Komputindo:\n\n";
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                message += `${index + 1}. ${item.name}\n`;
+                message += `   Harga: ${formatCurrency(item.price)}\n`;
+                message += `   Jumlah: ${item.quantity}\n`;
+                message += `   Subtotal: ${formatCurrency(itemTotal)}\n\n`;
+            });
+            
+            message += `*Total Keseluruhan: ${formatCurrency(total)}*\n\n`;
+            message += "Mohon informasi ketersediaan dan proses pemesanannya. Terima kasih!";
+            
+            // WhatsApp number (replace with actual number)
+            const phoneNumber = "6281254140777"; // Replace with actual WhatsApp number
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderProducts();
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97165c36f087fd9c',t:'MTc1NTU3MjAwMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
